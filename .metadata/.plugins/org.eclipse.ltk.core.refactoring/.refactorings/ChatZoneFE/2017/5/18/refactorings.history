@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Copy 3 elements to &apos;lib&apos;&#x0D;&#x0A;- Original project: &apos;ChatZoneFE&apos;&#x0D;&#x0A;- Destination element: &apos;lib&apos;&#x0D;&#x0A;- Original elements:&#x0D;&#x0A;     angular.js&#x0D;&#x0A;     angular-cookies.js&#x0D;&#x0A;     angular-route.js" description="Copy files" element1="WebContent/WEB-INF/lib/angular.js" element2="WebContent/WEB-INF/lib/angular-cookies.js" element3="WebContent/WEB-INF/lib/angular-route.js" files="3" flags="589830" folders="0" id="org.eclipse.jdt.ui.copy" policy="org.eclipse.jdt.ui.copyResources" stamp="1493942362023" target="/FrontEnd/WebContent/WEB-INF/lib" units="0" version="1.0"/>
+</session>

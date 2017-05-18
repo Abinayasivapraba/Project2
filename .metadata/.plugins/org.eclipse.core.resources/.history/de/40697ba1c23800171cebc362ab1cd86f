@@ -1,0 +1,5 @@
+package com.niit.chatzonerestservice.controller;
+
+public class BlogRestController {
+
+}

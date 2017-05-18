@@ -1,0 +1,12 @@
+com\niit\chatzonebe\config\ApplicationContextConfig.class
+com\niit\chatzonebe\model\Event.class
+com\niit\chatzonebe\model\BaseDomain.class
+com\niit\chatzonebe\model\Blog.class
+com\niit\chatzonebe\model\User.class
+com\niit\chatzonebe\App.class
+com\niit\chatzonebe\dao\UserDAO.class
+com\niit\chatzonebe\dao\impl\UserDAOImpl.class
+com\niit\chatzonebe\model\Chat.class
+com\niit\chatzonebe\model\Job.class
+com\niit\chatzonebe\model\JobApplication.class
+com\niit\chatzonebe\model\Friend.class

@@ -1,0 +1,47 @@
+'use strict';
+app.controller('UserController',['$scope','UserService','$location','$rootScope','$cookieStore','$http',
+	function($scope, UserService, $location, $rootScope,$cookieStore, $http) {
+	console.log("Inside UserController")
+	this.user={
+		id : '',
+		name : '',
+		password : '',
+		email : '',
+		contact : '',
+		role : '',
+		address : ''
+	}
+	this.createUser = function(user) {
+		console.log("Inside createUser function of UserController");
+		UserService.createUser(user)
+		.then(
+				function(d) {
+					$location.path("/")
+				},
+				function(errResponse) {
+					console.error('Error while creating user');
+				});
+	};
+	
+	this.submit = function() {
+		{
+		console.log("Submit user");
+		this.createUser(this.user);
+		}
+		this.reset();
+	};
+	
+	this.reset = function() {
+		this.user = {
+				id : '',
+				name : '',
+				password : '',
+				email : '',
+				contact : '',
+				role : '',
+				address : ''
+		};
+		$scope.myForm.$setPristine(); 
+	};
+
+}])

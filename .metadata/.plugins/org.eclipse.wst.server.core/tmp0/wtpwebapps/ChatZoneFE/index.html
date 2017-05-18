@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Welcome</title>
+</head>
+<body>
+<!-- JQuery -->
+<script type="text/javascript" src="lib/JQuery/jquery.js"></script>
+
+<!-- Bootstrap -->
+<script src="lib/BootStrap/bootstrap.js"></script>
+<link rel="stylesheet" href="lib/BootStrap/bootstrap.min.css">
+
+<!-- AngularJS -->
+<script src="lib/angular.js"></script>
+<script type="text/javascript" src="lib/angular-route.js"></script>
+<script type="text/javascript" src="lib/angular-cookies.js"></script>
+</head>
+<body ng-app="myApp">
+<div ng-include="'Header/Header.html'"></div>
+
+<!-- Controller -->
+<script src="Controller/app.js"></script>
+<script type="text/javascript" src="Controller/HomeController.js"></script>
+<script type="text/javascript" src="Controller/UserController.js"></script>
+<script type="text/javascript" src="Controller/UserService.js"></script>
+<script type="text/javascript" src="Controller/BlogController.js"></script>
+<script type="text/javascript" src="Controller/BlogService.js"></script>
+
+<div ng-view></div>
+
+
+</body>
+</html>

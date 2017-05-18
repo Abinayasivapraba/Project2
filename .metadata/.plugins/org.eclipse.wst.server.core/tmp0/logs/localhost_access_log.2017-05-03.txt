@@ -1,0 +1,11 @@
+127.0.0.1 - - [03/May/2017:13:40:21 +0530] "GET / HTTP/1.1" 404 994
+0:0:0:0:0:0:0:1 - - [03/May/2017:13:40:25 +0530] "GET /ChatZoneRestService/ HTTP/1.1" 200 57
+0:0:0:0:0:0:0:1 - - [03/May/2017:13:42:56 +0530] "GET /ChatZoneRestService/hello/ HTTP/1.1" 200 26
+127.0.0.1 - - [03/May/2017:16:41:31 +0530] "GET / HTTP/1.1" 404 994
+0:0:0:0:0:0:0:1 - - [03/May/2017:16:41:33 +0530] "GET /ChatZoneRestService/ HTTP/1.1" 200 57
+127.0.0.1 - - [03/May/2017:16:47:36 +0530] "GET / HTTP/1.1" 404 994
+0:0:0:0:0:0:0:1 - - [03/May/2017:16:47:37 +0530] "GET /ChatZoneRestService/ HTTP/1.1" 200 57
+0:0:0:0:0:0:0:1 - - [03/May/2017:16:47:57 +0530] "GET /ChatZoneRestService/users/ HTTP/1.1" 500 3741
+127.0.0.1 - - [03/May/2017:16:52:42 +0530] "GET / HTTP/1.1" 404 994
+0:0:0:0:0:0:0:1 - - [03/May/2017:16:52:43 +0530] "GET /ChatZoneRestService/ HTTP/1.1" 200 57
+0:0:0:0:0:0:0:1 - - [03/May/2017:16:53:07 +0530] "GET /ChatZoneRestService/users/ HTTP/1.1" 200 527

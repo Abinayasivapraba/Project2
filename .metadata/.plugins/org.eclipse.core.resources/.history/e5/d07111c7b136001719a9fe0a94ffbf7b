@@ -1,0 +1,51 @@
+package com.niit.chatzonebe;
+
+import static org.junit.Assert.*;
+
+import org.junit.BeforeClass;
+import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+
+import com.niit.chatzonebe.dao.BlogDAO;
+import com.niit.chatzonebe.model.Blog;
+
+public class BlogTestCase {
+
+	@Autowired
+	static AnnotationConfigApplicationContext context;
+	
+	@Autowired
+	static Blog blog;
+	
+	@Autowired 
+	static BlogDAO blogDAO;
+	
+	
+	
+	@BeforeClass
+	public void init(){
+		context=new  AnnotationConfigApplicationContext();
+		context.scan("com.niit");
+		context.refresh();
+		blog= (Blog) context.getBean("blog");
+		blogDAO=(BlogDAO) context.getBean("blogDAO");
+		
+	}
+	@Test
+	public void createBlogTestCase(){
+		blog.setBlogid(111);
+		//blog.setDatetime("12-5-2017");
+		blog.setDescription("Hibernate is an ORM to store the data in databasa");
+		blog.setId("user1");
+		blog.setReason("Present");
+		blog.setStatus("A");
+		boolean flag =blogDAO.save(blog);
+		assertEquals("createBlogTestCase",true, flag);
+		
+				
+	}
+	
+ 
+
+}
