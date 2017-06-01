@@ -1,0 +1,170 @@
+package com.niit.chatzonerestservice.controller;
+
+import java.util.Date;
+import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
+
+import javax.servlet.http.HttpSession;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.niit.chatzonebe.dao.CommentDAO;
+import com.niit.chatzonebe.model.Blog;
+import com.niit.chatzonebe.model.Comments;
+
+@RestController
+public class CommentRestController {
+	
+	
+	
+	
+	@Autowired
+	Comments comments;
+	
+	@Autowired
+	CommentDAO commentDAO;
+	@Autowired
+	HttpSession session;
+
+	private static final Logger log = LoggerFactory.getLogger(CommentRestController.class);
+	
+	
+	@GetMapping("/commentlist")
+	
+	public ResponseEntity<List<Comments>> list()
+	{
+	List<Comments> commentlist=commentDAO.list();
+	return new ResponseEntity<List<Comments>>(commentlist,HttpStatus.OK);
+	}
+
+	
+
+	@PostMapping("/saveComment/")
+	public ResponseEntity<Comments> createComment(@RequestBody Comments comments)
+	{
+		log.debug("Satrting of method creatComment");
+		String loggedInUserId = (String) session.getAttribute("userLoggedIn");
+		long d = System.currentTimeMillis();
+		Date today = new Date(d);
+		if(loggedInUserId==null)
+		{
+			log.debug("Checking whether User Is Logged In Or Not");
+			comments.setErrorcode("400");
+			comments.setErrormessage("User Not Logged In Please Log In First To Create Blog");
+			return new ResponseEntity<Comments>(comments, HttpStatus.OK);
+		}
+		else
+		{
+			log.debug("Saving Comment In the Else Part");
+			comments.setCommentid(ThreadLocalRandom.current().nextInt(100,1000000+1));
+			comments.setId(loggedInUserId);
+			comments.setDateadded(today);
+			commentDAO.save(comments);
+			comments.setErrorcode("200");
+			comments.setErrormessage("Comments Saved Successfully");
+			return new ResponseEntity<Comments>(comments, HttpStatus.OK);
+		}
+	}
+	
+	@PostMapping("/updateComment/")
+	public ResponseEntity<Comments> updateComments(@RequestBody Comments newComment)
+	{
+		log.debug("Satrting of method updateeUser");
+		comments = commentDAO.getCommentsById(newComment.getCommentid());
+		String loggedInUserId = (String) session.getAttribute("userLoggedIn");
+		if(loggedInUserId==null)
+		{
+			log.debug("Checking whether User Is Logged In Or Not");
+			newComment.setErrorcode("400");
+			newComment.setErrormessage("User Not Logged In Please Log In First To Update comment");
+			return new ResponseEntity<Comments>(newComment, HttpStatus.OK);
+		}
+		if(comments==null)
+		{
+			log.debug("Satrting of comment is null method of updateBlog");
+			newComment.setErrorcode("404");
+			newComment.setErrormessage("No Such comment Exists");
+			return new ResponseEntity<Comments>(newComment, HttpStatus.OK);
+		}
+		else
+		{
+			if(comments.getId().equals(loggedInUserId))
+			{
+				log.debug("Satrting of nested if method of else method of updateBlog");
+				long d = System.currentTimeMillis();
+				Date today = new Date(d);
+				newComment.setDateadded(today);
+				newComment.setId(comments.getId());
+				newComment.setBlogid(comments.getBlogid());
+				newComment.setForumid(comments.getForumid());
+				if(newComment.getComments()==null || newComment.getComments()=="")
+				{
+					newComment.setComments(comments.getComments());
+				}
+				
+				commentDAO.update(newComment);
+				newComment.setErrorcode("200");
+				newComment.setErrormessage("Comments Updated Successfully");
+			}
+			else
+			{
+				log.debug("Satrting of else method of update comments");
+				newComment.setErrorcode("500");
+				newComment.setErrormessage("You Cannot Update This Comment Because This Comment Is Created By Another User");
+			}
+			return new ResponseEntity<Comments>(newComment, HttpStatus.OK);
+		}
+	}
+	@GetMapping("/deleteComment/")
+	public ResponseEntity<Comments> deleteComments(@RequestBody Comments newComment)
+	{
+		log.debug("Starting of method Delete User");
+		comments = commentDAO.getCommentsById(newComment.getCommentid());
+		String loggedInUserId = (String) session.getAttribute("userLoggedIn");
+		if(loggedInUserId==null)
+		{
+			log.debug("Checking whether User Is Logged In Or Not");
+			newComment.setErrorcode("400");
+			newComment.setErrormessage("User Not Logged In Please Log In First To Delete comment");
+			return new ResponseEntity<Comments>(newComment, HttpStatus.OK);
+		}
+		if(comments==null)
+		{
+			log.debug("Starting of comment is null method of Delete comment");
+			newComment.setErrorcode("404");
+			newComment.setErrormessage("No Such comment Exists");
+			return new ResponseEntity<Comments>(newComment, HttpStatus.OK);
+		}
+		else
+		{
+			if(comments.getId().equals(loggedInUserId))
+			{
+				log.debug("Satrting of nested if method of else method of Delete Comment");
+				
+				
+				commentDAO.delete(newComment);
+				newComment.setErrorcode("200");
+				newComment.setErrormessage("Comments Updated Successfully");
+			}
+			else
+			{
+				log.debug("Starting of else method of delete comments");
+				newComment.setErrorcode("500");
+				newComment.setErrormessage("You Cannot Delete This Comment Because This Comment Is Created By Another User");
+			}
+			return new ResponseEntity<Comments>(newComment, HttpStatus.OK);
+		}
+	}
+	
+
+	
+
+}

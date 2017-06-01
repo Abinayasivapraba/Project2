@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Display Blog</title>
+</head>
+<body>
+<div ng-controller="BlogController as btrl">
+<form ng-submit="ctrl.displaybyid()" method="post" name="BlogIdForm">
+ <input type="text" ng-model="btrl.blog.blogid" name="id">
+<input type="submit" value="submit">
+</form>
+</div>
+
+<div ng-controller="BlogController as btrl">
+<table class="table table-striped table-bordered table-hover table-checkable datatable">  
+            <thead class="grid-top-panel">  
+                <tr>  
+                    <th>Blog Title</th>  
+                    <th>Blog Description</th>  
+                    <th>Blog Author</th>
+                    <th>Blog Date and Time</th>  
+                </tr>  
+            </thead>  
+            <tbody>    
+            <tr>
+                    <td>{{blog.title}}</td>  
+                    <td>{{blog.description}}</td>  
+                    <td>{{blog.id}}</td>  
+                    <td>{{blog.datetime}}</td>  
+                </tr>  
+            </tbody>  
+        </table>  
+</div>
+
+</body>
+</html>

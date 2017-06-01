@@ -5,14 +5,15 @@ import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
 import javax.servlet.http.HttpSession;
-import javax.websocket.Session;
 
+//import org.hibernate.annotations.common.util.impl.Log_.logger;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -22,11 +23,14 @@ import com.niit.chatzonebe.model.Blog;
 
 @RestController
 public class BlogRestController {
+	
 	@Autowired
 	private Blog blog;
 	
 	@Autowired
 	private BlogDAO blogDAO;
+	@Autowired
+	private HttpSession session;
 	
 	private static final Logger log = LoggerFactory.getLogger(BlogRestController.class);
 	
@@ -36,50 +40,150 @@ public class BlogRestController {
 		{
 		List<Blog> bloglist=blogDAO.list();
 		return new ResponseEntity<List<Blog>>(bloglist,HttpStatus.OK);
-			
-			
 		}
-	/*@PostMapping("/blog")
-	
-		public ResponseEntity<Blog> createBlog(@RequestBody Blog blog,HttpSession session)
-		{
-		blog.setBlogid(ThreadLocalRandom.current().nextInt(100,1000000+1));
-		String loggedInUserId=(String) session.getAttribute("loggedInUserId");
-		log.debug("blog is created bybthe user"+loggedInUserId);
-		blog.setId(loggedInUserId);
-		blog.setStatus('N');
-		long d = System.currentTimeMillis();
-		Date today = new Date(d);
-		blog.setDatetime(today);
-		blogDAO.save(blog);
-		return new ResponseEntity<Blog>(blog,HttpStatus.OK);
-
 	
 	
-	
-	}*/
-	@PostMapping("/blog/")
-	
-	public ResponseEntity<Blog> createBlog(@RequestBody Blog blog)
+	@PostMapping("/createblog/")
+	public ResponseEntity<Blog> saveBlog(@RequestBody Blog newBlog)
 	{
-		blog.setBlogid(ThreadLocalRandom.current().nextInt(100,1000000+1));
-	//String loggedInUserId=(String) session.getAttribute("loggedInUserId");
-	//log.debug("blog is created bybthe user"+loggedInUserId);
-	//blog.setId(Id);
-	//newBlog=new Blog();
-		blog.setStatus('N');
-		blog.setReason("Accept");
-	long d = System.currentTimeMillis();
-	Date today = new Date(d);
-	blog.setDatetime(today);
-	blogDAO.save(blog);
-	return new ResponseEntity<Blog>(blog,HttpStatus.OK);
-
-
-
-
-}
+		log.debug("Starting of the  method Create Blog");
+		blog = blogDAO.getBlogById(newBlog.getBlogid());
+		String loggedInUserId = (String) session.getAttribute("userLoggedIn");
+		if(loggedInUserId==null)
+		{
+			log.debug("Checking whether the User Is Logged In Or Not");
+			newBlog.setErrorcode("400");
+			newBlog.setErrormessage("Login of User required..Please Login with your Id..");
+			return new ResponseEntity<Blog>(newBlog, HttpStatus.OK);
+		}
+		if(blog==null)
+		{
+			log.debug("Starting of blog is null method of save Blog");
+			long d = System.currentTimeMillis();
+			Date today = new Date(d);
+			newBlog.setBlogid(ThreadLocalRandom.current().nextInt(100,1000000+1));
+			newBlog.setStatus('Y');
+			newBlog.setReason("Accept");
+			newBlog.setDatetime(today);
+			newBlog.setId(loggedInUserId); //This is to be used when you start with front end
+			 // This is for temporary purpose to make the rest service run
+			blogDAO.save(newBlog);
+			newBlog.setErrorcode("200");
+			newBlog.setErrormessage("Blog Successfully Posted Waiting To Be Approved By Admin");
+			return new ResponseEntity<Blog>(newBlog, HttpStatus.OK);
+		}
+		else
+		{
+			log.debug("Satrting of else method of saveBlog");
+			newBlog.setErrorcode("404");
+			newBlog.setErrormessage("Blog Does Not Posted Successfully Please Try Again");
+			return new ResponseEntity<Blog>(newBlog, HttpStatus.OK);
+		}
+	}
 	
+	@PostMapping("/blogUpdate/")
+	public ResponseEntity<Blog> updateBlog(@RequestBody Blog newBlog)
+	{
+		log.debug("Starting of the method Update Blog");
+		blog = blogDAO.getBlogById(newBlog.getBlogid());
+		String loggedInUserId = (String) session.getAttribute("userLoggedIn");
+		if(loggedInUserId==null)
+		{
+			log.debug("Checking whether User Is Logged In Or Not");
+			newBlog.setErrorcode("400");
+			newBlog.setErrormessage("User Not Logged In Please Log In First To Update Blog");
+			return new ResponseEntity<Blog>(newBlog, HttpStatus.OK);
+		}
+		if(blog==null)
+		{
+			log.debug("Starting of blog is null method of Update Blog");
+			newBlog.setErrorcode("404");
+			newBlog.setErrormessage("No Such Blog Exists");
+			return new ResponseEntity<Blog>(newBlog, HttpStatus.OK);
+		}
+		else
+		{
+			if(blog.getId().equals(loggedInUserId))
+			{
+				log.debug("Starting of  method of updateBlog");
+				long d = System.currentTimeMillis();
+				Date today = new Date(d);
+				newBlog.setDatetime(today);
+				newBlog.setStatus(blog.getStatus());
+				newBlog.setId(blog.getId());
+				if(newBlog.getTitle()==null || newBlog.getTitle()=="")
+				{
+					newBlog.setTitle(blog.getTitle());
+				}
+				if(newBlog.getDescription()==null || newBlog.getDescription()==null)
+				{
+					newBlog.setDescription(blog.getDescription());
+				}
+				if(newBlog.getReason()==null || newBlog.getReason()==null)
+				{
+					newBlog.setReason(blog.getReason());
+				}
+				blogDAO.update(newBlog);
+				newBlog.setErrorcode("200");
+				newBlog.setErrormessage("Blog Updated Successfully");
+			}
+			else
+			{
+				log.debug("Satrting of else method of updateBlog");
+				newBlog.setErrorcode("500");
+				newBlog.setErrormessage("You Cannot Update This Blog Because This Blog Is Created By Another User");
+			}
+			return new ResponseEntity<Blog>(newBlog, HttpStatus.OK);
+		}
+	}
+	@PostMapping("/getBlogById/{blogid}")
+	public ResponseEntity<Blog> getBlogById(@PathVariable("blogid") int blogid){
+		log.debug("Getting blog with blogid:"+blogid);
+		blog=blogDAO.getBlogById(blogid);
+		if(blog!=null){
+			log.debug("Blog Is Present");
+			return new ResponseEntity<Blog>(blog,HttpStatus.OK);
+		}
+		else{
+			log.debug("Blog Not Present");
+			return null;
+		}
+	}
+		
+	@PostMapping("/BlogById/")
+	public ResponseEntity<Blog> showBlogByBlogId(@RequestBody Blog blog)
+	{
+		log.debug("Satrting of method showBlogById");
+		blog = blogDAO.getBlogById(blog.getBlogid());
+		if(blog==null)
+		{
+			log.debug("Checking whether Blog List is Null Or Not");
+			blog = new Blog();
+			blog.setErrorcode("404");
+			blog.setErrormessage("No Such Blog Exists");
+			return new ResponseEntity<Blog>(blog, HttpStatus.OK);
+		}
+		else
+		{
+			blog.setErrorcode("200");
+			blog.setErrormessage("Blog By Id Fetched Successfully");
+			return new ResponseEntity<Blog>(blog,HttpStatus.OK);
+		}
+	}
+	
+	@GetMapping("/removeBlog/{blogid}")
+	public String removeBlog(@PathVariable("blogid") int blogid){
+		log.debug("Start of method Remove Blog Using Id");
+		boolean valid=blogDAO.delete(blogid);
+		if(valid){
+			log.debug("Blog Removed Successfully");
+			return "Success";
+		}
+		else{
+			log.debug("Blog Not Removed");
+			return "Error";
+		}
+	}
 
 		
 	

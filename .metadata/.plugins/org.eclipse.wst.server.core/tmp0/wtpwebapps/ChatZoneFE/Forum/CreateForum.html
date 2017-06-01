@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Forum</title>
+</head>
+<body>
+ <div ng-controller="ForumController as ftrl">
+  <form ng-submit="ftrl.create()" name="myForm" method="post" class="form-horizontal">
+ <div class="form-group"> 
+  <label for="message" class="cols-sm-2 control-label">Message</label>
+							<div class="cols-sm-4">
+								<div class="input-group">
+									<span class="input-group-addon"><i class="fa fa-envelope fa" aria-hidden="true"></i></span>
+									<input type="text" class="form-control" name="title" id="title" ng-model="ftrl.forum.forummessage"  placeholder="Enter the message"/>
+								</div>
+							</div>
+						</div>
+						
+						<input type="submit" class="btn btn-lg btn-success btn-success" value="Submit">
+						
+						
+						</form>
+						</div>
+						
+
+</body>
+</html>

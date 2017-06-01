@@ -1,0 +1,81 @@
+package com.niit.chatzonerestservice.controller;
+
+import java.util.Date;
+import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
+
+import javax.servlet.http.HttpSession;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.niit.chatzonebe.dao.ForumDAO;
+import com.niit.chatzonebe.model.Forum;
+@RestController
+public class ForumRestController {
+	
+	@Autowired
+	private Forum forum;;
+	
+	@Autowired
+	private ForumDAO forumDAO;
+	@Autowired
+	private HttpSession session;
+	
+	private static final Logger log = LoggerFactory.getLogger(BlogRestController.class);
+	
+	@GetMapping("/forumlist")
+	
+		public ResponseEntity<List<Forum>> list()
+		{
+		List<Forum> forumlist=forumDAO.list();
+		return new ResponseEntity<List<Forum>>(forumlist,HttpStatus.OK);
+			
+			
+		}
+	@PostMapping("/createforum/")
+	public ResponseEntity<Forum> saveForum(@RequestBody Forum newForum)
+	{
+		log.debug("Satrting of method saveForum");
+		forum = forumDAO.getForumById(newForum.getForumid());
+		String loggedInUserId = (String) session.getAttribute("userLoggedIn");
+		if(loggedInUserId==null)
+		{
+			log.debug("Checking whether User Is Logged In Or Not");
+			newForum.setErrorcode("400");
+			newForum.setErrormessage("User Not Logged In Please Log In First To Create Forum");
+			return new ResponseEntity<Forum>(newForum, HttpStatus.OK);
+		}
+		if(forum==null)
+		{
+			log.debug("Satrting of if(blog==null) method of saveBlog");
+			long d = System.currentTimeMillis();
+			Date today = new Date(d);
+			newForum.setForumid(ThreadLocalRandom.current().nextInt(100,1000000+1));
+			newForum.setForummessage("DevOps Concepts in detail");
+			
+			newForum.setDateadded(today);
+			newForum.setId(loggedInUserId); //This is to be used when you start with front end
+			 // This is for temporary purpose to make the rest service run
+			forumDAO.save(newForum);
+			newForum.setErrorcode("200");
+			newForum.setErrormessage("Forum Successfully Posted Waiting To Be Approved By Admin");
+			return new ResponseEntity<Forum>(newForum, HttpStatus.OK);
+		}
+		else
+		{
+			log.debug("Satrting of else method of saveBlog");
+			newForum.setErrorcode("404");
+			newForum.setErrormessage("Forum Does Not Posted Successfully Please Try Again");
+			return new ResponseEntity<Forum>(newForum, HttpStatus.OK);
+		}
+	}
+
+}

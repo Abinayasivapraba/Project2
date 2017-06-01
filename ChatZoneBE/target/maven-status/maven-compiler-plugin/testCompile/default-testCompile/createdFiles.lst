@@ -1,1 +1,5 @@
+com\niit\chatzonebe\CommentsTestCase.class
+com\niit\chatzonebe\ForumTestCase.class
 com\niit\chatzonebe\UserTestCase.class
+com\niit\chatzonebe\ChatTestCase.class
+com\niit\chatzonebe\BlogTestCase.class

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+<!-- <div ng-controller="BlogController as btrl">
+<form ng-submit="btrl.editBlog()" method="post">
+Blog Id: <input type="text" ng-model="btrl.blog.blogid" ng-placeholder="blogId"/><br>
+Blog Title: <input type="text" ng-model="btrl.blog.title" ng-placeholder="blogName"/><br>
+Description : <input type="text" ng-model="btrl.blog.description" placeholder="blogDescription"/><br>
+User : <input type="text" ng-model="btrl.blog.id" placeholder="blog UserId"/><br>
+Reason : <input type="text" ng-model="btrl.blog.reason" placeholder="Reason"/><br>
+Status : <input type="text" ng-model="btrl.blog.status" placeholder="Status"/><br>
+<input type="submit" values="Update Blog">
+</form>
+</div>
+ -->
+</body>
+</html>

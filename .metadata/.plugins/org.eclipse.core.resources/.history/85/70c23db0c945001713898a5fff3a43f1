@@ -1,0 +1,25 @@
+app.service('BlogService', ['$http', '$q','$rootScope', function($http, $q,$rootScope){
+	console.log("BlogService...")
+	var BASE_URL='http://localhost:8083/ChatZoneRestService/'
+		return {  
+        createComment: function(comment){
+        	console.log("createComment Function Being Called")
+                return $http.post(BASE_URL+'saveComment/', comment)
+                        .then(
+                                function(response){
+                                    return response.data;
+                                }, 
+                                function(errResponse){
+                                    console.error('Error while creating comment please try again');
+                                    return $q.reject(errResponse);
+                                }
+                        );
+        },
+	}
+	
+		
+	
+	
+	
+	
+}]);

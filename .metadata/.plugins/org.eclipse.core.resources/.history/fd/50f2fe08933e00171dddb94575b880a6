@@ -1,0 +1,39 @@
+package com.niit.chatzonerestservice.controller;
+
+import java.util.List;
+
+import javax.servlet.http.HttpSession;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+
+import com.niit.chatzonebe.dao.ForumDAO;
+import com.niit.chatzonebe.model.Forum;
+
+public class ForumRestController {
+	
+	@Autowired
+	private Forum forum;;
+	
+	@Autowired
+	private ForumDAO forumDAO;
+	@Autowired
+	private HttpSession session;
+	
+	private static final Logger log = LoggerFactory.getLogger(BlogRestController.class);
+	
+	@GetMapping("/bloglist")
+	
+		public ResponseEntity<List<Forum>> list()
+		{
+		List<Forum> forumlist=forumDAO.list();
+		return new ResponseEntity<List<Forum>>(forumlist,HttpStatus.OK);
+			
+			
+		}
+
+}

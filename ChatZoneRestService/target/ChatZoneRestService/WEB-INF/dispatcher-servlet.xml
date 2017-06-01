@@ -28,5 +28,6 @@ xmlns="http://www.springframework.org/schema/beans">
 <mvc:resources location="/resources/" mapping="/resources/**"/>
 
 <mvc:annotation-driven/>
+<mvc:default-servlet-handler/>
 
 </beans>

@@ -1,0 +1,5 @@
+package com.niit.chatzonebe.dao;
+
+public interface CommentDAO {
+
+}

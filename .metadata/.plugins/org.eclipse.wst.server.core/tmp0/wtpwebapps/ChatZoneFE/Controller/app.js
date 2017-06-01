@@ -16,6 +16,55 @@ app.config(function($routeProvider) {
 		templateUrl : 'Blog/Blog.html',
 		controller : 'BlogController'
 	})
+	.when('/displayblog', {
+		templateUrl : 'Blog/DisplayBlogs.html',
+		controller : 'BlogController'
+	})
+	.when('/displayBlog', {
+		templateUrl : 'Blog/DisplayBlog.html',
+		controller : 'BlogController'
+	})
+	.when('/displayBlogById', {
+		templateUrl : 'Blog/DisplayBlogById.html',
+		controller : 'BlogController'
+	})
+	.when('/viewBlog', {
+		templateUrl : 'Blog/ViewBlog.html',
+		controller : 'BlogController'
+	})
+	.when('/editBlog', {
+		templateUrl : 'Blog/EditBlog.html',
+		controller : 'BlogController'
+	})
+	.when('/deleteBlog', {
+		templateUrl : 'Blog/DeleteBlog.html',
+		controller : 'BlogController'
+	})
+	.when('/createForum', {
+		templateUrl : 'Forum/CreateForum.html',
+		controller : 'ForumController'
+	})
+	.when('/editForum', {
+		templateUrl : 'Forum/EditForum.html',
+		controller : 'ForumController'
+	})
+	.when('/deleteForum', {
+		templateUrl : 'Forum/DeleteForum.html',
+		controller : 'ForumController'
+	})
+	.when('/displayForum', {
+		templateUrl : 'Forum/DisplayForum.html',
+		controller : 'ForumController'
+	})
+	.when('/displayForums', {
+		templateUrl : 'Forum/DisplayForums.html',
+		controller : 'ForumController'
+	})
+	.when('/addComment', {
+		templateUrl : 'Comments/AddComment.html',
+		controller : 'ForumController'
+	})
+	
 	.otherwise({
 		redirectTo : '/'
 	});
@@ -24,8 +73,9 @@ app.config(function($httpProvider) {
 	$httpProvider.defaults.headers.common = {};
 	  $httpProvider.defaults.headers.post = {};
 	  $httpProvider.defaults.headers.put = {};
+	  //$httpProvider.defaults.headers.delete = {};
 	  $httpProvider.defaults.headers.patch = {};
-	  //$httpProvider.defaults.headers.put['Content-Type'] = 'application/x-www-form-urlencoded';
+	  $httpProvider.defaults.headers.put['Content-Type'] = 'application/x-www-form-urlencoded';
       $httpProvider.defaults.headers.post['Content-Type'] =  'application/json';
 });
 app.run( function ($rootScope, $location,$cookieStore, $http , $q) {

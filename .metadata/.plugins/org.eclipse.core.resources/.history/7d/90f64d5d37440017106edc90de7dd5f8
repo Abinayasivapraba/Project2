@@ -1,0 +1,92 @@
+'use strict';
+app.controller('ForumController',['$scope','ForumService','$location','$rootScope','$cookieStore','$http',
+	function($scope, ForumService, $location, $rootScope,$cookieStore, $http) {
+	console.log("Inside forumController")
+	this.forum={
+		id : '',
+		forumid : '',
+		forummessage : ''
+	}
+	this.forums=[];
+	this.createForum = function(forum) {
+		console.log("Inside createforum function of forumController");
+		ForumService.createForum(forum)
+		.then(
+				function(d) {
+					$location.path("/createForum")
+				},
+				function(errResponse) {
+					console.error('Error while creating forum');
+				});
+	};
+	this.create = function() {
+		{
+		console.log("Submit forum",this.forum);
+		this.createForum(this.forum);
+		}
+		
+	
+	};
+	this.editForum = function(forum){
+		console.log("Updating forum");
+		ForumService.updateForum(this.forum)
+		.then(
+				function(d) {
+					$rootScope.forum=d;
+					$location.path("/")
+				},
+				function(errResponse) {
+					console.error('Error while updating forum');
+				});
+	};
+	this.deleteForum = function(forum) {
+		console.log("deleteForum!")
+		ForumService.deleteForum(forum)
+		this.forum.forumid=$rootScope.forum.forumid
+		.then(
+				function(d) 
+				{
+					this.forum.forumid=d;
+					if(this.forum.errorcode==200)
+					{
+						alert("Thank You forum Deleted Successfully!!!")
+					}
+					else if(this.forum.errorcode==400)
+					{
+						alert("User Not Logged In Please Log In First To Delete forum")
+					}
+					else if(this.forum.errorcode==404)
+					{
+						alert("No Such forum Exists")
+					}
+					else if(this.forum.errorcode==500)
+					{
+						alert("This forum Is Not Created By You So You Cannot Delete This forum")
+					}
+					
+				},
+				function(errResponse)
+				{
+						console.error('Error while deleting forum.');
+			});
+		};
+		
+		this.remove = function(forum) {
+			{
+				this.forum.forumid=forum;
+				console.log('Deleting Forum', this.forum.forumid);
+				this.deleteForum(this.forum.forumid);
+			}
+		};
+
+
+
+	
+	
+	
+	
+	
+	
+	
+}])
+	

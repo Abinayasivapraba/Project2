@@ -1,0 +1,235 @@
+package com.niit.chatzonerestservice.controller;
+
+import java.util.Date;
+import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
+
+import javax.servlet.http.HttpSession;
+
+//import org.hibernate.annotations.common.util.impl.Log_.logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.niit.chatzonebe.dao.BlogDAO;
+import com.niit.chatzonebe.model.Blog;
+
+@RestController
+public class BlogRestController {
+	@Autowired
+	private Blog blog;
+	
+	@Autowired
+	private BlogDAO blogDAO;
+	@Autowired
+	private HttpSession session;
+	
+	private static final Logger log = LoggerFactory.getLogger(BlogRestController.class);
+	
+	@GetMapping("/bloglist")
+	
+		public ResponseEntity<List<Blog>> list()
+		{
+		List<Blog> bloglist=blogDAO.list();
+		return new ResponseEntity<List<Blog>>(bloglist,HttpStatus.OK);
+		}
+	
+	
+	@PostMapping("/createblog/")
+	public ResponseEntity<Blog> saveBlog(@RequestBody Blog newBlog)
+	{
+		log.debug("Satrting of method CreateBlog");
+		blog = blogDAO.getBlogById(newBlog.getBlogid());
+		String loggedInUserId = (String) session.getAttribute("userLoggedIn");
+		if(loggedInUserId==null)
+		{
+			log.debug("Checking whether the User Is Logged In Or Not");
+			newBlog.setErrorcode("400");
+			newBlog.setErrormessage("Login of User required..Please Login with your Id..");
+			return new ResponseEntity<Blog>(newBlog, HttpStatus.OK);
+		}
+		if(blog==null)
+		{
+			log.debug("Satrting of blog is null method of saveBlog");
+			long d = System.currentTimeMillis();
+			Date today = new Date(d);
+			newBlog.setBlogid(ThreadLocalRandom.current().nextInt(100,1000000+1));
+			newBlog.setStatus('Y');
+			newBlog.setReason("Accept");
+			newBlog.setDatetime(today);
+			newBlog.setId(loggedInUserId); //This is to be used when you start with front end
+			 // This is for temporary purpose to make the rest service run
+			blogDAO.save(newBlog);
+			newBlog.setErrorcode("200");
+			newBlog.setErrormessage("Blog Successfully Posted Waiting To Be Approved By Admin");
+			return new ResponseEntity<Blog>(newBlog, HttpStatus.OK);
+		}
+		else
+		{
+			log.debug("Satrting of else method of saveBlog");
+			newBlog.setErrorcode("404");
+			newBlog.setErrormessage("Blog Does Not Posted Successfully Please Try Again");
+			return new ResponseEntity<Blog>(newBlog, HttpStatus.OK);
+		}
+	}
+	
+	/*@PostMapping("/blogUpdate/")
+	public ResponseEntity<Blog> updateBlog(@RequestBody Blog newBlog)
+	{
+		log.debug("Satrting of method updateeUser");
+		blog = blogDAO.getBlogById(newBlog.getBlogid());
+		String loggedInUserId = (String) session.getAttribute("userLoggedIn");
+		if(loggedInUserId==null)
+		{
+			log.debug("Checking whether User Is Logged In Or Not");
+			newBlog.setErrorcode("400");
+			newBlog.setErrormessage("User Not Logged In Please Log In First To Update Blog");
+			return new ResponseEntity<Blog>(newBlog, HttpStatus.OK);
+		}
+		if(blog==null)
+		{
+			log.debug("Satrting of if(blog==null) method of updateBlog");
+			newBlog.setErrorcode("404");
+			newBlog.setErrormessage("No Such Blog Exists");
+			return new ResponseEntity<Blog>(newBlog, HttpStatus.OK);
+		}
+		else
+		{
+			if(blog.getId().equals(loggedInUserId))
+			{
+				log.debug("Satrting of nested if method of else method of updateBlog");
+				long d = System.currentTimeMillis();
+				Date today = new Date(d);
+				newBlog.setDatetime(today);
+				newBlog.setStatus(blog.getStatus());
+				newBlog.setId(blog.getId());
+				if(newBlog.getTitle()==null)
+				{
+					newBlog.setTitle(blog.getTitle());
+				}
+				if(newBlog.getDescription()==null)
+				{
+					newBlog.setDescription(blog.getDescription());
+				}
+				blogDAO.update(newBlog);
+				newBlog.setErrorcode("200");
+				newBlog.setErrormessage("Blog Updated Successfully");
+			}
+			else
+			{
+				log.debug("Satrting of else method of updateBlog");
+				newBlog.setErrorcode("500");
+				newBlog.setErrormessage("You Cannot Update This Blog Because This Blog Is Created By Another User");
+			}
+			return new ResponseEntity<Blog>(newBlog, HttpStatus.OK);
+		}
+	}*/
+	@PostMapping("/getBlogById/{blogid}")
+	public ResponseEntity<Blog> getBlogById(@PathVariable("blogid") int blogid){
+		log.debug("Getting blog with blogid:"+blogid);
+		blog=blogDAO.getBlogById(blogid);
+		if(blog!=null){
+			log.debug("Blog Is Present");
+			return new ResponseEntity<Blog>(blog,HttpStatus.OK);
+		}
+		else{
+			log.debug("Blog Not Present");
+			return null;
+		}
+	}
+	@PostMapping("/blogUpdate/")
+	public ResponseEntity<Blog> updateBlog(@RequestBody Blog updateBlog)
+	{
+		log.debug("Start of the Updating Blog Method");
+		boolean valid=blogDAO.update(updateBlog);
+		if(valid)
+		{
+			log.debug("Blog updated");
+			updateBlog.setErrorcode("200");
+			updateBlog.setErrormessage("Blog Updated Successfully");
+			return new ResponseEntity<Blog>(updateBlog,HttpStatus.OK);
+		}
+		else
+		{
+			log.debug("Error while Updating Blog");
+			updateBlog.setErrorcode("400");
+			updateBlog.setErrormessage("Blog not Updated");
+			return new ResponseEntity<Blog>(updateBlog,HttpStatus.OK);
+		}
+	}
+	@GetMapping("/removeBlog/{blogid}")
+	public String removeBlog(@PathVariable("blogid") int blogid){
+		log.debug("Start of method RemoveBlog Using Id");
+		boolean valid=blogDAO.delete(blogid);
+		if(valid){
+			log.debug("Blog Removed Successfully");
+			return "Success";
+		}
+		else{
+			log.debug("Blog Not Removed");
+			return "Error";
+		}
+	}
+	@PostMapping("/UpdateBlogById/{blogid}")
+	public ResponseEntity<Blog> UpdateBlogById(@PathVariable("blogid") int blogid, @RequestBody Blog blog ){
+		log.debug("Getting blog with blogID:"+blogid);
+		
+		if(blog==null)
+		{
+			log.debug("Satrting of Updating null blog method ");
+			blog.setErrorcode("404");
+			blog.setErrormessage("No Such Blog Exists");
+			return new ResponseEntity<Blog>(blog, HttpStatus.OK);
+		}
+
+		else
+		{
+			log.debug("Satrting of Updating a New Blog");
+			long d = System.currentTimeMillis();
+			Date today = new Date(d);
+			blog.setDatetime(today);
+			blog.setStatus(blog.getStatus());
+			blog.setId(blog.getId());
+			blog.setReason(blog.getReason());
+			if(blog.getTitle()==null)
+			{
+				blog.setTitle(blog.getTitle());
+			}
+			if(blog.getDescription()==null)
+			{
+				blog.setDescription(blog.getDescription());
+			}
+         blogDAO.update(blogid);
+			
+			log.debug("Blog updated");
+			blog.setErrorcode("200");
+			blog.setErrormessage("Blog updated");
+			return new ResponseEntity<Blog>(blog,HttpStatus.OK);
+		}
+		
+		
+	}
+
+
+
+	
+	
+	
+	
+
+		
+	
+	
+		
+	}
+	
+
+

@@ -7,6 +7,8 @@ import java.util.List;
 
 import org.hibernate.HibernateException;
 import org.hibernate.SessionFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,6 +20,11 @@ import com.niit.chatzonebe.model.Blog;
 
 
 public class BlogDAOImpl implements BlogDAO{
+	
+	
+	private static final Logger log=LoggerFactory.getLogger(BlogDAOImpl.class);
+	
+
 	private SessionFactory sessionFactory;
 	private Blog blog;
 	
@@ -70,16 +77,30 @@ public boolean delete(Blog blog) {
 }
 @Transactional
 public boolean delete(int blogid) {
-	sessionFactory.getCurrentSession().delete(getBlogById(blogid));
-	return false;
+	try{
+		sessionFactory.getCurrentSession().delete(getBlogById(blogid));
+		return true;
+	}
+	catch(Exception e){
+		System.err.println(e);
+		return false;
+	}
 }
 @Transactional
 public boolean update(int blogid) {
-	sessionFactory.getCurrentSession().update(getBlogById(blogid));
+	try {
+		sessionFactory.getCurrentSession().update(getBlogById(blogid));
+		return true;
+	} catch (HibernateException e) {
+		
+		e.printStackTrace();
+	}
 	return false;
 }
 @Transactional
 public Blog getBlogById(int blogid) {
+	log.debug("Getting blog with blogId:"+blogid);
+	
 	return (Blog) sessionFactory.getCurrentSession().createQuery("from Blog where blogid ='"+ blogid +"'" ).uniqueResult();
 }
 

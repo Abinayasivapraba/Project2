@@ -1,2 +1,5 @@
 com\niit\chatzonerestservice\controller\UserRestController.class
+com\niit\chatzonerestservice\controller\ForumRestController.class
 com\niit\chatzonerestservice\controller\HomeController.class
+com\niit\chatzonerestservice\controller\BlogRestController.class
+com\niit\chatzonerestservice\controller\CommentRestController.class

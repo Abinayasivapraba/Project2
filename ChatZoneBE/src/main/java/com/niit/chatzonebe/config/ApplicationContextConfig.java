@@ -17,6 +17,8 @@ import org.springframework.orm.hibernate4.LocalSessionFactoryBuilder;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import com.niit.chatzonebe.model.Blog;
+import com.niit.chatzonebe.model.Comments;
+import com.niit.chatzonebe.model.Forum;
 import com.niit.chatzonebe.model.User;
 
 @Configuration
@@ -64,6 +66,8 @@ public class ApplicationContextConfig {
 		sessionBuilder.addAnnotatedClass(User.class);
 
 		 sessionBuilder.addAnnotatedClass(Blog.class);
+		 sessionBuilder.addAnnotatedClass(Forum.class);
+		 sessionBuilder.addAnnotatedClass(Comments.class);
 
 		logger.debug("Ending of the method getSessionFactory");
 		return sessionBuilder.buildSessionFactory();

@@ -39,25 +39,25 @@ public class UserRestController {
      @PostMapping("/addUser")
            public User addUser(@RequestBody User newUser) 
            {
-    	      log.debug("Calling createUser");
-    	      System.out.println("Calling createUser");
+    	      log.debug("Calling Add User");
+    	      
     	      user=userDAO.get(newUser.getId());
     	      if(user==null)
     	      {
     	    	  log.debug("User does not exists");
-    	    	  System.out.println("Calling createUser not");
+    	    	  System.out.println(" AddUser func not called");
     	    	  userDAO.save(newUser);
-    	    	  //user.setErrorcode("200");
-    	    	  //user.setErrormessage("Thank you for Registration");
+    	    	  newUser.setErrorcode("200");
+    	    	  newUser.setErrormessage("Thank you for Registration");
     	    	  
     	      }
     	      else
     	      {
-    	    	  log.debug("choose another id as it is existed");
+    	    	  log.debug("This Id Exists..Choose another");
     	    	  user.setErrorcode("800");
-    	    	  user.setErrormessage("choose another id");
+    	    	  user.setErrormessage("Choose another Id");
     	      }
-    	      log.debug("Ending of create user method");
+    	      log.debug("Ending of Add User Method");
     	      return newUser;
            }
      //@PostMapping()
@@ -75,7 +75,7 @@ public class UserRestController {
      @GetMapping("/validate/{id}/{password}")
      public User validateCredentials(@PathVariable("id") String id,@PathVariable("password") String password)
      {
-    	 if(userDAO.ValidCredentials(id, password)==null)
+    	 if(userDAO.ValidCredentials(id, password)!=null)
     	 {
     		 user.setErrorcode("200");
     		 user.setErrormessage("User Found");
@@ -86,7 +86,7 @@ public class UserRestController {
         		 user.setErrormessage("Invalid Credentials");
     			 
     		 }
-    	 return null;
+    	 return user;
      }
      /*@PostMapping("/user")
      public User createUser(@RequestBody User user) {
@@ -106,32 +106,40 @@ public class UserRestController {
      @PostMapping("/ValidateUserLogin")
  	public ResponseEntity<User> validateUserLogin(@RequestBody User newUser)
  	{
- 		log.debug("Starting of the method UserLoginValidate");
+ 		log.debug("Starting of the method ValidateUserLogin");
  		newUser = userDAO.ValidCredentials(newUser.getId(), newUser.getPassword());
  		if(newUser==null)
  		{
  			newUser = new User();
  			newUser.setErrorcode("404");
  			newUser.setErrormessage("User Invalid");
- 			log.debug("Starting of if method of UserLoginValidate");
+ 			log.debug("Starting of the newUser method of ValidateUserLogin");
  			log.debug("User is null, invalid credentials entered");
- 			log.debug("Endinging of if method of UserLoginValidate");
+ 			log.debug("Endinging of if method of ValidateUserLogin");
  			return new ResponseEntity<User>(newUser,HttpStatus.OK);
  		}
  		else
  		{
  			newUser.setErrorcode("200");
  			newUser.setErrormessage("User Successfully Logged In");
- 			log.debug("Starting of else method of UserLoginValidate");
+ 			log.debug("Starting of else method of ValidateUserLogin");
  			log.debug("User is not null valid credentials entered");
- 			log.debug("ending of else method of UserLoginValidate");
+ 			log.debug("ending of null method of ValidateUserLogin");
  			session.setAttribute("userLoggedIn", newUser.getId());
  			session.setAttribute("userLoggedInRole", newUser.getRole());
  			return new ResponseEntity<User>(newUser,HttpStatus.OK);
  		}
  	}
+     @GetMapping("/ValidateUserLogout")
+  	public ResponseEntity<User> validateUserLogout()
+  	{
+    	 log.debug("logout method starts");
+    	 session.invalidate();
+    	 log.debug("user logout successfully");
+		 return new ResponseEntity<User>(user,HttpStatus.OK);
+  	}
      
-     
+   
      
 
 

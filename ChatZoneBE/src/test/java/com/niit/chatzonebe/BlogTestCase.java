@@ -64,9 +64,9 @@ public class BlogTestCase {
 				
 	}
 	/*@Test
-	public void deleteBlog(){
-		//blog.getBlogid(11);
-		boolean flag=blogDAO.delete(11);
+	public void deleteBlog(int blogid){
+		boolean flag=blogDAO.delete(getBlogById(11));
+		//boolean flag=blogDAO.delete(11);
 		assertEquals("deleteBlog",true, flag);
 		
 		

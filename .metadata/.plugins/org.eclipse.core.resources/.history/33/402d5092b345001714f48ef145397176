@@ -1,0 +1,78 @@
+package com.niit.chatzonerestservice.controller;
+
+import java.util.Date;
+import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
+
+import javax.servlet.http.HttpSession;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.niit.chatzonebe.dao.CommentDAO;
+import com.niit.chatzonebe.model.Blog;
+import com.niit.chatzonebe.model.Comments;
+
+@RestController
+public class CommentRestController {
+	
+	
+	
+	
+	@Autowired
+	Comments comments;
+	
+	@Autowired
+	CommentDAO commentDAO;
+	@Autowired
+	HttpSession session;
+
+	private static final Logger log = LoggerFactory.getLogger(CommentRestController.class);
+	
+	
+	@GetMapping("/commentlist")
+	
+	public ResponseEntity<List<Comments>> list()
+	{
+	List<Comments> commentlist=commentDAO.list();
+	return new ResponseEntity<List<Comments>>(commentlist,HttpStatus.OK);
+	}
+
+	
+
+	@PostMapping("/saveComment/")
+	public ResponseEntity<Comments> createComment(@RequestBody Comments comments)
+	{
+		log.debug("Satrting of method creatComment");
+		String loggedInUserId = (String) session.getAttribute("userLoggedIn");
+		long d = System.currentTimeMillis();
+		Date today = new Date(d);
+		if(loggedInUserId==null)
+		{
+			log.debug("Checking whether User Is Logged In Or Not");
+			comments.setErrorcode("400");
+			comments.setErrormessage("User Not Logged In Please Log In First To Create Blog");
+			return new ResponseEntity<Comments>(comments, HttpStatus.OK);
+		}
+		else
+		{
+			log.debug("Saving Comment In the Else Part");
+			comments.setCommentid(ThreadLocalRandom.current().nextInt(100,1000000+1));
+			comments.setId(loggedInUserId);
+			comments.setDateadded(today);
+			commentDAO.save(comments);
+			comments.setErrorcode("200");
+			comments.setErrormessage("Comments Saved Successfully");
+			return new ResponseEntity<Comments>(comments, HttpStatus.OK);
+		}
+	}
+	
+
+}

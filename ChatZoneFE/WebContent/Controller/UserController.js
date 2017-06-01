@@ -1,4 +1,4 @@
-'use strict';
+
 app.controller('UserController',['$scope','UserService','$location','$rootScope','$cookieStore','$http',
 	function($scope, UserService, $location, $rootScope,$cookieStore, $http) {
 	console.log("Inside UserController")
@@ -11,8 +11,17 @@ app.controller('UserController',['$scope','UserService','$location','$rootScope'
 		role : '',
 		address : ''
 	}
+	this.currentuser={
+		id : '',
+		name : '',
+		password : '',
+		email : '',
+		contact : '',
+		role : '',
+		address : ''
+	}
 	this.createUser = function(user) {
-		console.log("Inside createUser function of UserController");
+		console.log(" createUser function of  UserController");
 		UserService.createUser(user)
 		.then(
 				function(d) {
@@ -50,7 +59,7 @@ app.controller('UserController',['$scope','UserService','$location','$rootScope'
 				function(d)
 				{
 					user=d;
-					if(user.errorCode==200)
+					if(user.errorcode==200)
 						{
 						if(user.role=="admin")
 							{
@@ -63,9 +72,9 @@ app.controller('UserController',['$scope','UserService','$location','$rootScope'
 						}
 					else
 						{
-						this.user={}
 						
-						id="";
+						
+						user.id="";
 						user.password="";
 						
 						
@@ -84,12 +93,21 @@ app.controller('UserController',['$scope','UserService','$location','$rootScope'
 	};
 	this.login=function() {
 		{
-			console.log("Validating User Login",this.user);
+			console.log("Validating user login",this.user);
 			this.validateUser(this.user);
 			
 		}
 	};
-		
+		this.logout=function(){
+		{
+			console.log("validating user logout");
+	      $rootScope.currentuser={};
+		  $cookieStore.remove('currentuser')
+		  UserService.UserLogout()
+		   $location.path("/")
+			
+		}
+};
 		
 
 }])

@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Delete Forum</title>
+</head>
+<body>
+<div ng-controller="ForumController as ftrl">
+<center>
+<form ng-submit="ftrl.deleteForum()" method="get">
+Enter ForumId:<input type="text" ng-model="forumDeleteId"><br>
+
+
+<input type="submit" class="btn btn-lg btn-danger btn-danger" value="Delete">
+</form>
+</center>
+</div>
+
+</body>
+</html>

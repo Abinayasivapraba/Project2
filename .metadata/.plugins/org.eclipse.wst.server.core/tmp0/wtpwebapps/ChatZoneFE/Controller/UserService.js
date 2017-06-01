@@ -32,14 +32,24 @@ app.service('UserService', ['$http', '$q','$rootScope', function($http, $q,$root
                     }
             );
 		},
-	
-	/*,
 		
-		login: function(user) {
-			console.log("Inside login function in UserService")
-			return $http.post(BASE_URL)
-			
-		}*/
+		
+		UserLogout: function(user) {
+			console.log("Inside UserValidation")
+			return $http.get(BASE_URL+'/ValidateUserLogout', user)
+			.then(
+                    function(response){
+                    	console.log("Logout Function")
+                        return response.data;
+                    }, 
+                    function(errResponse){
+                        console.error('Error in user logout');
+                        return $q.reject(errResponse);
+                    }
+            );
+		},
+	
+	
 	};
 	
 }])
