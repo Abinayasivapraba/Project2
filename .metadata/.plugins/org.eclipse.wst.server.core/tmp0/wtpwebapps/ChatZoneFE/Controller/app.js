@@ -64,6 +64,11 @@ app.config(function($routeProvider) {
 		templateUrl : 'Comments/AddComment.html',
 		controller : 'ForumController'
 	})
+	.when('/chat', {
+		templateUrl : 'Chat/Chat.html',
+		controller : 'ChatController'
+	})
+	
 	
 	.otherwise({
 		redirectTo : '/'

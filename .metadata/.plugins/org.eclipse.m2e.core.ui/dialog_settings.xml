@@ -44,6 +44,7 @@
 	</section>
 	<section name="MavenProjectWizardLocationPage">
 		<list key="location">
+			<item value="D:\Users\Abinaya\Project2\ChatZoneFE\WebContent\Controller\BlogService.js"/>
 		</list>
 		<list key="projectNameTemplate">
 			<item value="[artifactId]"/>
@@ -56,6 +57,7 @@
 	</section>
 	<section name="Maven2ProjectWizardArchifactPage">
 		<list key="package">
+			<item value="com.niit.aa"/>
 			<item value="com.niit.chatzonerestservice"/>
 			<item value="com.niit.chatzonebe"/>
 		</list>
@@ -63,6 +65,7 @@
 			<item value="com.niit"/>
 		</list>
 		<list key="artifactId">
+			<item value="aa"/>
 			<item value="ChatZoneRestService"/>
 			<item value="ChatZoneBE"/>
 		</list>

@@ -19,10 +19,10 @@
           <h4>Author : {{forum.id}}</h4>
           <h4>Date Added : {{forum.dateadded}}</h4>
           <h4>Answers:<p><div ng-repeat="comment in comments" ng-if="forum.forumid == comment.forumid">{{comment.id}} : {{comment.commentsmsg}}</div></p></h4>
-          <a ng-hide="currentuser.id" href="#/login" ng-click="ftrl.addForum(forum.forumid)" class="btn btn-success">Add Your Answers</a>
-          <a ng-show="currentuser.id" href="#/addComment" ng-click="ftrl.addForum(forum.forumid)" class="btn btn-success">Add Your Answers</a>
-          <a ng-if="forum.id==currentuser.id" href="#" ng-click="cmtrl.update(forum.forumid)"><span class="glyphicon glyphicon-pencil btn btn-success">&nbsp;Edit</span></a>
-          <a ng-if="forum.id==currentuser.id" href="#" ng-click="cmtrl.remove(forum.forumid)"><span class="glyphicon glyphicon-trash btn btn-warning">&nbsp;Delete</span></a>
+          <a ng-hide="currentuser.id" href="#/login" ng-click="ftrl.addForum(forum.forumid)" class="btn btn-primary"> Your Comments</a>
+          <a ng-show="currentuser.id" href="#/addComment" ng-click="ftrl.addForum(forum.forumid)" class="btn btn-primary">Your Comments</a>
+          <a ng-if="forum.id==currentuser.id" href="#" ng-click="cmtrl.update(forum.forumid)"><button type="submit" class="btn btn-success">Edit</button></a>
+          <a ng-if="forum.id==currentuser.id" href="#" ng-click="cmtrl.remove(forum.forumid)"><button type="submit" class="btn btn-danger">delete</button></a>
           </div>
           </div>
           </div>

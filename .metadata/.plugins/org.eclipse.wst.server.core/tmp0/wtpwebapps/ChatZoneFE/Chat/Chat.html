@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+
+
+<div ng-controller="ChatController as chrl">
+<form ng-submit="addMessage()">
+<input type="text" ng-model=message />
+<input type="submit" value="Send">
+
+<p ng-repeat="message in messages | orderBy:'time':true" class="message">
+        <time>{{message.time | date:'HH:mm'}}</time>
+        <span ng-class="{self: message.self}">{{message.message}}</span>
+      </p>
+</form>
+</div>
+
+</body>
+</html>

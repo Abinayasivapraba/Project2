@@ -17,7 +17,7 @@ app.service('CommentService', ['$http', '$q','$rootScope', function($http, $q,$r
         },
         fetchAllComments: function(){
         	console.log("fetchAllComments Function Being Called")
-                return $http.get(BASE_URL+'CommentsList')
+                return $http.get(BASE_URL+'commentlist')
                         .then(
                                 function(response){
                                     return response.data;

@@ -21,7 +21,7 @@ app.controller('UserController',['$scope','UserService','$location','$rootScope'
 		address : ''
 	}
 	this.createUser = function(user) {
-		console.log("Inside createUser function of UserController");
+		console.log(" createUser function of  UserController");
 		UserService.createUser(user)
 		.then(
 				function(d) {
@@ -93,14 +93,14 @@ app.controller('UserController',['$scope','UserService','$location','$rootScope'
 	};
 	this.login=function() {
 		{
-			console.log("Validating User Login",this.user);
+			console.log("Validating user login",this.user);
 			this.validateUser(this.user);
 			
 		}
 	};
 		this.logout=function(){
 		{
-			console.log("validating user Logout");
+			console.log("validating user logout");
 	      $rootScope.currentuser={};
 		  $cookieStore.remove('currentuser')
 		  UserService.UserLogout()

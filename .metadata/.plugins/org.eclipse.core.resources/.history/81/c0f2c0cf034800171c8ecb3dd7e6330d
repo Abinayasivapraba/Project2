@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+<div ng-controller="BlogController as btrl" ng-show="blogs.length">
+<div ng-hide="blogs.length"><center><h1>No Blogs To Display</h1></center></div>
+<table class="table table-striped table-bordered table-hover table-checkable datatable">  
+            <thead class="grid-top-panel">  
+                <tr>  
+                    <th>Blog Title</th>  
+                    <th>Blog Description</th>  
+                    <th>Blog Author</th>
+                    <th>Blog Date and Time</th> 
+                     <th ng-show="currentuser.id">Actions</th>  
+                </tr>  
+            </thead>  
+            <tbody>  
+                <tr ng-repeat="blog in blogs">  
+                    <td>{{blog.title}}</td>  
+                    <td>{{blog.description}}</td>  
+                    <td>{{blog.id}}</td>  
+                    <td>{{blog.datetime}}</td>
+                    
+                    <td ng-repeat="comment in comments"><div ng-if="blog.blogid == comment.blogid">{{comment.comments}}</div></td>
+                    <td ng-show="currentuser.id">
+                    	<a href="#" class="btn btn-success">Add Comments</a></td>
+                    
+                    <td ng-show="currentuser.id"><a href="#" ng-click="btrl.remove(blog.blogid)"><button type="submit" class="btn btn-danger">Delete</button></a></td>
+                    <a href="#" ng-click="btrl.update(blog.blogid)"><button type="submit" class="btn btn-success">Edit</button></a></td>  
+                </tr>  
+            </tbody>  
+        </table>  
+</div>
+
+</body>
+</html>

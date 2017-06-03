@@ -89,7 +89,8 @@
     <groupId>org.springframework.security</groupId>
     <artifactId>spring-security-web</artifactId>
     <version>4.2.2.RELEASE</version>
-	</dependency><!-- https://mvnrepository.com/artifact/org.springframework.security/spring-security-core -->
+	</dependency>
+	<!-- https://mvnrepository.com/artifact/org.springframework.security/spring-security-core -->
 	<dependency>
     <groupId>org.springframework.security</groupId>
     <artifactId>spring-security-core</artifactId>
@@ -119,7 +120,24 @@
     <artifactId>slf4j-api</artifactId>
     <version>1.7.25</version>
 	</dependency>
+	<!--  https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-core -->
+   <dependency>
+    <groupId>com.fasterxml.jackson.core</groupId>
+    <artifactId>jackson-core</artifactId>
+    <version>2.8.7</version>
+	</dependency>
+	<!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.jaxrs/jackson-jaxrs-json-provider -->
+	<dependency>
+    <groupId>com.fasterxml.jackson.jaxrs</groupId>
+    <artifactId>jackson-jaxrs-json-provider</artifactId>
+    <version>2.8.7</version>
+	</dependency>
 	
+	<dependency>
+	<groupId>org.springframework</groupId>
+	<artifactId>spring-beans</artifactId>
+	<version>4.3.7.RELEASE</version>
+	</dependency>
 	
 	
 	

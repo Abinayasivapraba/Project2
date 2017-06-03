@@ -21,8 +21,8 @@
           <h4>Comments:<p><div ng-repeat="comment in comments" ng-if="blog.blogid == comment.blogid">{{comment.id}} : {{comment.commentsmsg}}</div></p></h4>
           <a ng-hide="currentuser.id" href="#/login" ng-click="cmtrl.add(blog.blogid)" class="btn btn-success">Add Comments</a>
           <a ng-show="currentuser.id" href="#/addComment" ng-click="cmtrl.add(blog.blogid)" class="btn btn-success">Add Comments</a>
-          <a href="#" ng-if="blog.id==currentuser.id" ng-click="btrl.update(blog.blogid)"><span class="glyphicon glyphicon-pencil btn btn-success">&nbsp;Edit</span></a>
-          <a href="#" ng-if="blog.id==currentuser.id" ng-click="btrl.remove(blog.blogid)"><span class="glyphicon glyphicon-trash btn btn-warning">&nbsp;Delete</span></a>
+          <a href="#" ng-if="blog.id==currentuser.id" ng-click="btrl.update(blog.blogid)"><button type="submit" class="btn btn-success">Edit</button></a>
+          <a href="#" ng-if="blog.id==currentuser.id" ng-click="btrl.remove(blog.blogid)"><button type="submit" class="btn btn-danger">Delete</button></a>
           </div>
           </div>
           </div>

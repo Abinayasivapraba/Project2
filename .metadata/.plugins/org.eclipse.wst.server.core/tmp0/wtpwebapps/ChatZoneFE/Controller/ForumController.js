@@ -1,6 +1,6 @@
 
-app.controller('ForumController',['$scope','ForumService','$location','$rootScope','$cookieStore','$http',
-	function($scope, ForumService, $location, $rootScope,$cookieStore, $http) {
+app.controller('ForumController',['$scope','ForumService','CommentService','$location','$rootScope','$cookieStore','$http',
+	function($scope, ForumService, CommentService,$location, $rootScope,$cookieStore, $http) {
 	console.log("Inside forumController")
 	this.forum={
 		id : '',
@@ -173,6 +173,37 @@ app.controller('ForumController',['$scope','ForumService','$location','$rootScop
 				this.deleteForum(this.forum.forumid);
 			}
 		};
+		
+		
+		
+		this.fetchAllForums = function() {
+			console.log("fetchAllForums!")
+			ForumService.fetchAllForums()
+			.then(
+					function(d) 
+					{
+						this.forums=d;
+						if(this.forums.length==0)
+						{
+							alert("There Are No Forums To Display")
+						}
+						$rootScope.forums=d;
+						console.log(this.forums)
+						CommentService.fetchAllComments()
+							.then(
+									function(d){
+										this.comments=d;
+										$rootScope.comments=d;
+									}
+							);
+						alert("Thank You Forums Fetched Successfully!!!")
+						$location.path('/displayForums')
+					},
+					function(errResponse) 
+					{
+							console.error('Error while Fetching Forums.');
+				});
+			};
 
 
 

@@ -1,0 +1,5 @@
+package com.niit.chatzonerestservice.config;
+
+public class WebSocketConfig {
+
+}

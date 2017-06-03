@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -60,50 +59,10 @@ public class UserRestController {
     	      log.debug("Ending of Add User Method");
     	      return newUser;
            }
-     //@PostMapping()
+     
     	      		
     	      
-    	      
-    	 
-    	 
-    	 
-           
-
-      
-     
-     
-     @GetMapping("/validate/{id}/{password}")
-     public User validateCredentials(@PathVariable("id") String id,@PathVariable("password") String password)
-     {
-    	 if(userDAO.ValidCredentials(id, password)!=null)
-    	 {
-    		 user.setErrorcode("200");
-    		 user.setErrormessage("User Found");
-    	 }
-    		 else
-    		 {
-    			 user.setErrorcode("404");
-        		 user.setErrormessage("Invalid Credentials");
-    			 
-    		 }
-    	 return user;
-     }
-     /*@PostMapping("/user")
-     public User createUser(@RequestBody User user) {
-     user=userDAO.get(user.getId());
-     if(user==null)
-     {
-    	 userDAO.save(user);
-     }
-    	 else {
-    		 user.setErrorcode("800");
-    		 user.setErrormessage("This id exists,please choose another id");
-    		 
-    		}
-     
-     return user;
-     }*/
-     @PostMapping("/ValidateUserLogin")
+    @PostMapping("/ValidateUserLogin")
  	public ResponseEntity<User> validateUserLogin(@RequestBody User newUser)
  	{
  		log.debug("Starting of the method ValidateUserLogin");
@@ -115,14 +74,14 @@ public class UserRestController {
  			newUser.setErrormessage("User Invalid");
  			log.debug("Starting of the newUser method of ValidateUserLogin");
  			log.debug("User is null, invalid credentials entered");
- 			log.debug("Endinging of if method of ValidateUserLogin");
+ 			log.debug("Ending of  method of ValidateUserLogin");
  			return new ResponseEntity<User>(newUser,HttpStatus.OK);
  		}
  		else
  		{
  			newUser.setErrorcode("200");
  			newUser.setErrormessage("User Successfully Logged In");
- 			log.debug("Starting of else method of ValidateUserLogin");
+ 			log.debug("Starting of method of ValidateUserLogin");
  			log.debug("User is not null valid credentials entered");
  			log.debug("ending of null method of ValidateUserLogin");
  			session.setAttribute("userLoggedIn", newUser.getId());
