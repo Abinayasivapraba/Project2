@@ -1,0 +1,53 @@
+package com.niit.chatzonebe;
+
+import static org.junit.Assert.assertEquals;
+
+import org.junit.BeforeClass;
+import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+
+import com.niit.chatzonebe.dao.FriendDAO;
+import com.niit.chatzonebe.model.Friend;
+
+public class FriendTestCase {
+
+	
+	@Autowired
+	static AnnotationConfigApplicationContext context;
+	
+	@Autowired
+	static Friend friend;
+	
+	@Autowired 
+	static  FriendDAO  friendDAO;
+	
+	
+	
+	@BeforeClass
+	public static  void init(){
+		context=new  AnnotationConfigApplicationContext();
+		context.scan("com.niit");
+		context.refresh();
+		friend= ( Friend) context.getBean("friend");
+		friendDAO=(FriendDAO) context.getBean("friendDAO");
+		
+	}
+	
+	@Test
+	public void creatFriendTestCase(){
+		
+		friend.setFid(102);;
+		friend.setId("user1");
+		friend.setFriendid("user2");
+		boolean flag =friendDAO.save(friend);
+	    assertEquals("create FriendTestCase",true, flag);
+		
+				
+	}
+	
+
+	
+	
+	
+}

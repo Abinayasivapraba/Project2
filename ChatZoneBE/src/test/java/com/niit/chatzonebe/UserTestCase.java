@@ -84,16 +84,16 @@ public class UserTestCase {
 	}
 	
 	
-	/*@Test
+	@Test
 	public void getUserTestCase()
 	{
-		user =  userDAO.get("manish");
+		user =  userDAO.get("user1");
 		
 		assertEquals("getUserTestCase", null, user);
 		
 		
 		
-	}*/
+	}
 
 	
 	

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Chatting</title>
+<style>
+.message-bubble 
+{
+    padding: 10px 0px 10px 0px;
+}
+
+.message-bubble:nth-child(even) { background-color: #F5F5F5; }
+
+.message-bubble > *
+{
+    padding-left: 10px;    
+}
+
+.panel-body { padding: 0px; }
+
+.panel-heading { background-color: #3d6da7 !important; color: white !important; }
+
+
+</style>
+</head>
+<body>
+
+<div ng-controller="ChatController as chrl">
+<form ng-submit="addMessage()">
+<div class="container">
+    <div class="row">
+        <div class="panel panel-default">
+          <div class="panel-heading">Start Chatting</div>
+          <div class="panel-body">
+            <div class="container">
+                <div class="row message-bubble">
+                <input type="text" ng-model=message />
+<input type="submit" value="Send">
+
+<p ng-repeat="message in messages | orderBy:'time':true" class="message">
+        <time>{{message.time | date:'HH:mm'}}</time>
+        <span ng-class="{self: message.self}">{{message.message}}</span>
+      </p>
+                </div>
+                
+          </div>
+        </div>
+    </div>
+    </div>
+    
+</div>
+</form>
+</div>
+
+</body>
+</html>

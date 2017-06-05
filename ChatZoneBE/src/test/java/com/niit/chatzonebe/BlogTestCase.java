@@ -32,7 +32,7 @@ public class BlogTestCase {
 		blogDAO=(BlogDAO) context.getBean("blogDAO");
 		
 	}
-	/*
+	
 	@Test
 	public void updateBlogTestCase(){
 		blog.setBlogid(12);
@@ -47,7 +47,7 @@ public class BlogTestCase {
 		assertEquals("updateBlogTestCase",true, flag);
 		
 				
-	}*/
+	}
 	@Test
 	public void createBlogTestCase(){
 		blog.setBlogid(11);
@@ -63,16 +63,12 @@ public class BlogTestCase {
 		
 				
 	}
-	/*@Test
-	public void deleteBlog(int blogid){
-		boolean flag=blogDAO.delete(getBlogById(11));
-		//boolean flag=blogDAO.delete(11);
-		assertEquals("deleteBlog",true, flag);
+	
 		
 		
 		
 		
-	}*/
+	
 	@Test
 	public void updateBlog(){
 		blog.setDescription("Spring MVC for web designing applications");

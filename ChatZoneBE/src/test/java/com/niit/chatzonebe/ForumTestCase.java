@@ -33,7 +33,7 @@ public class ForumTestCase {
 		
 	}
 	
-	/*@Test
+	@Test
 	public void createForumTestCase(){
 		
 		forum.setForumid(102);;
@@ -58,7 +58,7 @@ public class ForumTestCase {
 		
 				
 	}
-	*/@Test
+	@Test
 	public void deleteForum(){
 		
 		boolean flag=forumDAO.delete(449874);
