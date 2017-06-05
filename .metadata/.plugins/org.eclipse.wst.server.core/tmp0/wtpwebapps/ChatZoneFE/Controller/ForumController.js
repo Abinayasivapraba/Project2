@@ -33,6 +33,8 @@ app.controller('ForumController',['$scope','ForumService','CommentService','$loc
 	
 	this.updateForum = function(forum) {
 		console.log("updateforum!")
+		this.forum.forumid=$rootScope.forum.forumid
+
 		ForumService.updateForum(forum)
 		.then(
 				function(d) 
@@ -67,8 +69,9 @@ app.controller('ForumController',['$scope','ForumService','CommentService','$loc
 		};
 	
 	this.update = function(forum) {
-		this.forum.forumid=forum;
+		
 		console.log('Update forum', this.forum.forumid);
+		this.forum.forumid=forum;
 		ForumService.fetchForumById(this.forum)
 		.then(
 			function(d) 
@@ -93,9 +96,9 @@ app.controller('ForumController',['$scope','ForumService','CommentService','$loc
 	
 	
 	this.edit = function(){
-		
+		this.forum.forumid=forum;
 		console.log('Updating forum', this.forum);
-		this.updateForum($rootScope.forum)
+		this.updateForum(this.forum)
 	}
 	
 	
@@ -118,14 +121,21 @@ app.controller('ForumController',['$scope','ForumService','CommentService','$loc
 					}
 					$rootScope.forums=d;
 					console.log(this.forums)
-					alert("Thank You Forums Fetched Successfully!!!")
-					$location.path('/displayForum')
-				},
-				function(errResponse) 
-				{
-						console.error('Error while Fetching Forums.');
-			});
-		};	
+					CommentService.fetchAllComments()
+					.then(
+							function(d){
+								this.comments=d;
+								$rootScope.comments=d;
+							}
+					);
+				alert("Thank You Forums Fetched Successfully!!!")
+				$location.path('/displayForums')
+			},
+			function(errResponse) 
+			{
+					console.error('Error while Fetching Blogs.');
+		});
+	};
 		this.display = function() {
 			{
 				console.log('Display All Forum');
@@ -142,19 +152,19 @@ app.controller('ForumController',['$scope','ForumService','CommentService','$loc
 				function(d) 
 				{
 					this.forum=d;
-					if(forum.errorcode==200)
+					if(this.forum.errorcode==200)
 					{
 						alert("Thank You forum Deleted Successfully!!!")
 					}
-					else if(forum.errorcode==400)
+					else if(this.forum.errorcode==400)
 					{
 						alert("User Not Logged In Please Log In First To Delete forum")
 					}
-					else if(forum.errorcode==404)
+					else if(this.forum.errorcode==404)
 					{
 						alert("No Such forum Exists")
 					}
-					else if(forum.errorcode==500)
+					else if(this.forum.errorcode==500)
 					{
 						alert("This forum Is Not Created By You So You Cannot Delete This forum")
 					}
@@ -176,39 +186,7 @@ app.controller('ForumController',['$scope','ForumService','CommentService','$loc
 		
 		
 		
-		this.fetchAllForums = function() {
-			console.log("fetchAllForums!")
-			ForumService.fetchAllForums()
-			.then(
-					function(d) 
-					{
-						this.forums=d;
-						if(this.forums.length==0)
-						{
-							alert("There Are No Forums To Display")
-						}
-						$rootScope.forums=d;
-						console.log(this.forums)
-						CommentService.fetchAllComments()
-							.then(
-									function(d){
-										this.comments=d;
-										$rootScope.comments=d;
-									}
-							);
-						alert("Thank You Forums Fetched Successfully!!!")
-						$location.path('/displayForums')
-					},
-					function(errResponse) 
-					{
-							console.error('Error while Fetching Forums.');
-				});
-			};
-
-
-
-	
-	
+			
 	
 	
 	

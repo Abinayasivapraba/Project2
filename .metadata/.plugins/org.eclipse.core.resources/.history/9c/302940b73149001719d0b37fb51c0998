@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Edit Forum</title>
+</head>
+<body>
+<div ng-controller="ForumController as ftrl">
+        <!-- You only need this form and the form-labels-on-top.css -->
+        <form class="form-labels-on-top" name="foorumUpdate" method="post" ng-submit="ftrl.edit()">
+
+            <div class="form-title-row">
+                <h1>Update Forum</h1>
+            </div>
+            <div class="form-row">
+                <label>
+                    <span>Title</span>
+                    <input type="text" ng-value="forum.forummessage" ng-bind='forum.forummessage' ng-model="forum.forummessage" name="Forum Message">
+                </label>
+            </div>
+
+            
+            <div class="form-row">
+                <button type="submit">Update</button>
+            </div>
+
+        </form>
+        </div>
+ 
+ 
+ 
+
+
+</body>
+</html>

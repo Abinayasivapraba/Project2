@@ -28,18 +28,12 @@ app.config(function($routeProvider) {
 		templateUrl : 'Blog/DisplayBlogById.html',
 		controller : 'BlogController'
 	})
-	.when('/viewBlog', {
-		templateUrl : 'Blog/ViewBlog.html',
-		controller : 'BlogController'
-	})
+	
 	.when('/editBlog', {
 		templateUrl : 'Blog/EditBlog.html',
 		controller : 'BlogController'
 	})
-	.when('/deleteBlog', {
-		templateUrl : 'Blog/DeleteBlog.html',
-		controller : 'BlogController'
-	})
+	
 	.when('/createForum', {
 		templateUrl : 'Forum/CreateForum.html',
 		controller : 'ForumController'
@@ -48,10 +42,7 @@ app.config(function($routeProvider) {
 		templateUrl : 'Forum/EditForum.html',
 		controller : 'ForumController'
 	})
-	.when('/deleteForum', {
-		templateUrl : 'Forum/DeleteForum.html',
-		controller : 'ForumController'
-	})
+	
 	.when('/displayForum', {
 		templateUrl : 'Forum/DisplayForum.html',
 		controller : 'ForumController'

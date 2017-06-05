@@ -73,7 +73,7 @@ fetchAllForums: function(){
                                             return response.data;
                                         }, 
                                         function(errResponse){
-                                            console.error('Error while fetching blogs by id please try again');
+                                            console.error('Error while fetching forum by id please try again');
                                             return $q.reject(errResponse);
                                         }
                                 );

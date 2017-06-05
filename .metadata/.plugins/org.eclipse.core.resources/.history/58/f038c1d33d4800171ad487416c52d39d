@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+<div ng-controller="BlogController as ctrl">
+<div class="formcontainer">
+			<div class="row main">
+				<div class="main-login main-center">
+				<h5>Sign up </h5>
+					<form ng-submit="ctrl.create()" name="myForm" class="form-horizontal">
+				
+
+<div class="form-group">
+							<label for="email" class="cols-sm-2 control-label">Title</label>
+							<div class="cols-sm-4">
+								<div class="input-group">
+									<span class="input-group-addon"><i class="fa fa-envelope fa" aria-hidden="true"></i></span>
+									<input type="text" class="form-control" name="title" id="title" ng-model="ctrl.blog.title"  placeholder="Enter the title"/>
+								</div>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label for="desc" class="cols-sm-2 control-label">Blog Description</label>
+							<div class="cols-sm-4">
+								<div class="input-group">
+									<span class="input-group-addon"><i class="fa fa-users fa" aria-hidden="true"></i></span>
+									<input type="text" class="form-control" name="description" id="id" ng-model="ctrl.blog.description"  placeholder="Description"/>
+								</div>
+							</div>
+						</div>
+						
+						<input type="submit" class="btn btn-lg btn-success btn-success" value="Create">
+						</form>
+						</div>
+						</div>
+						</div>
+						</div>
+						
+
+</body>
+</html>

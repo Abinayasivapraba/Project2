@@ -4,11 +4,14 @@ app.controller('ChatController',['$scope','ChatService','$location','$rootScope'
 	$scope.messages = [];
 	  $scope.message = "";
 	  $scope.addMessage = function() {
+		  console.log("Start Of Add Message")
 		    ChatService.send($scope.message);
+		    
 		    $scope.message = "";
 		  };
 
 		  ChatService.receive().then(null, null, function(message) {
+			  console.log("ChatService.receive")
 		    $scope.messages.push(message);
 		  });
 }])

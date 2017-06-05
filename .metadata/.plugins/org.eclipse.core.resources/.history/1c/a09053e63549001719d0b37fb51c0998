@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Forum</title>
+</head>
+<body>
+
+<body>
+<div ng-hide="forums.length"><center><h1>No forums To Display</h1></center></div>
+<div ng-controller="ForumController as ftrl" ng-show="forums.length">
+<div ng-controller="CommentController as cmtrl">
+<div class="row">
+<div ng-repeat="forum in forums">
+    <div class="col-xs-12 col-md-12">
+      <div class="thumbnail">
+          <div class="caption">
+          <center><h1>{{forum.forummessage}}</h1></center>
+          <h4>Author : {{forum.id}}</h4>
+          <h4>Date Added : {{forum.dateadded}}</h4>
+          <h4>Answers:<p><div ng-repeat="comment in comments" ng-if="forum.forumid == comment.forumid">{{comment.id}} : {{comment.commentsmsg}}</div></p></h4>
+          <a ng-hide="currentuser.id" href="#/login" ng-click="ftrl.addForum(forum.forumid)" class="btn btn-primary"> Your Comments</a>
+          <a ng-show="currentuser.id" href="#/addComment" ng-click="ftrl.addForum(forum.forumid)" class="btn btn-primary">Your Comments</a>
+          <a href="#" ng-if="forum.id==currentuser.id"  ng-click="cmtrl.update(forum.forumid)"><button type="submit" class="btn btn-success">Edit</button></a>
+          <a href="#" ng-if="forum.id==currentuser.id" ng-click="cmtrl.remove(forum.forumid)"><button type="submit" class="btn btn-danger">delete</button></a>
+          </div>
+          </div>
+          </div>
+    </div>
+    </div>
+</div>
+</div>
+
+</body>
+</html>

@@ -6,7 +6,7 @@ app.service('ChatService', ['$http', '$q','$rootScope','$timeout', function($htt
 	    }, messageIds = [];
 	    
 	    service.RECONNECT_TIMEOUT = 30000;
-	    service.SOCKET_URL = "/ChatZoneRestService/chat";
+	    service.SOCKET_URL = "http://localhost:8083//ChatZoneRestService/chat";
 
 	    service.CHAT_TOPIC = "/topic/message";
 	    service.CHAT_BROKER = "/app/chat";

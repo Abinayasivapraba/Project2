@@ -1,0 +1,55 @@
+<div ng-controller="BlogController as btrl">
+<div ng-controller="UserController as ctrl">
+<div ng-controller="ForumController as ftrl">
+
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="#">ChatZone</a>
+    </div>
+    <ul class="nav navbar-nav">
+      <li class="active"><a href="#">Home</a></li>
+      <li ng-hide="currentuser.id"><a href="#/login">Login</a></li>
+
+      <li><a href="#/goRegister">Register</a></li>
+      <li><a href="#" ng-click="btrl.display()">Blogs Show</a></li>
+      <li><a href="#/displayForum" ng-click="ftrl.display()">Forum Show</a></li>
+      <li><a href="#/viewBlog">View</a></li>
+      <li><a href="#/blog">Blog</a></li>
+        <li><a href="#/createForum">Forum</a></li>
+      
+     
+     
+     
+     <ul class="nav navbar-nav navbar-right">
+      
+       <li ng-show="currentuser.id"><a href="#/" ng-click="ctrl.logout()">Welcome : {{currentuser.name}} | Logout</a></li>
+      </ul>
+      
+      
+      
+    </ul>
+  </div>
+</nav>
+</div>
+
+
+
+<div class="footer">
+
+<div class="navbar navbar-inverse navbar-fixed-bottom">
+        <div class="container">
+            <p class="navbar-text pull-left">© 2017 - Abinaya@gmail.com </p>
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+
+
+</div>

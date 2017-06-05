@@ -136,19 +136,7 @@ public class BlogRestController {
 			return new ResponseEntity<Blog>(newBlog, HttpStatus.OK);
 		}
 	}
-	@PostMapping("/getBlogById/{blogid}")
-	public ResponseEntity<Blog> getBlogById(@PathVariable("blogid") int blogid){
-		log.debug("Getting blog with blogid:"+blogid);
-		blog=blogDAO.getBlogById(blogid);
-		if(blog!=null){
-			log.debug("Blog Is Present");
-			return new ResponseEntity<Blog>(blog,HttpStatus.OK);
-		}
-		else{
-			log.debug("Blog Not Present");
-			return null;
-		}
-	}
+	
 		
 	@PostMapping("/BlogById/")
 	public ResponseEntity<Blog> showBlogByBlogId(@RequestBody Blog blog)

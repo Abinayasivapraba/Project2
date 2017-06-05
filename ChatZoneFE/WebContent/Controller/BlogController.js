@@ -1,5 +1,5 @@
-app.controller('BlogController',['$scope','BlogService','$location','$rootScope','$cookieStore','$http',
-	function($scope, BlogService, $location, $rootScope,$cookieStore, $http) {
+app.controller('BlogController',['$scope','BlogService','CommentService','$location','$rootScope','$cookieStore','$http',
+	function($scope, BlogService, CommentService, $location, $rootScope,$cookieStore, $http) {
 	console.log("Inside blogController")
 	this.blog={
 		id : '',
@@ -12,18 +12,7 @@ app.controller('BlogController',['$scope','BlogService','$location','$rootScope'
 	}
 	this.blogs=[];
 	this.comments=[];
-	this.getBlog = function() {
-		console.log("Inside getblog function of blogController");
-		BlogService.getBlogById($scope.blogid)
-		.then(
-				function(d) {
-					$rootScope.currentblog=d;
-					$location.path("/viewBlog")
-				},
-				function(errResponse) {
-					console.error('Error while getting blog');
-				});
-	};
+	
 	this.createBlog = function(blog) {
 		console.log("Inside createblog function of blogController");
 		BlogService.createBlog(blog)
@@ -110,20 +99,28 @@ app.controller('BlogController',['$scope','BlogService','$location','$rootScope'
 					}
 					$rootScope.blogs=d;
 					console.log(this.blogs)
+					CommentService.fetchAllComments()
+						.then(
+								function(d){
+									this.comments=d;
+									$rootScope.comments=d;
+								}
+						);
 					alert("Thank You Blogs Fetched Successfully!!!")
-					$location.path('/displayblog')
+					$location.path('/displayBlog')
 				},
 				function(errResponse) 
 				{
 						console.error('Error while Fetching Blogs.');
 			});
-		};	
+		};
 		this.display = function() {
 			{
 				console.log('Display All Blog');
 				this.fetchAllBlogs();
 			}
 		};
+
 		
 		this.deleteBlog = function(blog) {
 			console.log("deleteBlog!")

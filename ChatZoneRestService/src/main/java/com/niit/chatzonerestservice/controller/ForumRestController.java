@@ -155,7 +155,7 @@ public class ForumRestController {
 			log.debug("Checking whether Forum List is Null Or Not");
 			forum = new Forum();
 			forum.setErrorcode("404");
-			forum.setErrormessage("No Such Blog Exists");
+			forum.setErrormessage("No Such Forum Exists");
 			return new ResponseEntity<Forum>(forum, HttpStatus.OK);
 		}
 		else
@@ -166,28 +166,6 @@ public class ForumRestController {
 		}
 	}
 	
-	/*
-	@PostMapping("/ForumUpdate/")
-	public ResponseEntity<Forum> updateforum(@RequestBody Forum newForum)
-	{
-		log.debug("Start of the Updating Blog Method");
-		boolean valid=forumDAO.update(newForum);
-		if(valid)
-		{
-			log.debug("Blog updated");
-			newForum.setErrorcode("200");
-			newForum.setErrormessage("Blog Updated Successfully");
-			return new ResponseEntity<Forum>(newForum,HttpStatus.OK);
-		}
-		else
-		{
-			log.debug("Error while Updating Blog");
-			newForum.setErrorcode("400");
-			newForum.setErrormessage("Blog not Updated");
-			return new ResponseEntity<Blog>(newForum,HttpStatus.OK);
-		}
-	}
-	*/
 	
 
 }
